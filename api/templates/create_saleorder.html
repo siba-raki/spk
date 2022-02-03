@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_tags %} 
+<div class="container py-5 h-100">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div>
+        <h3>
+          <small class="text-muted">Create Sale Order</small>
+        </h3>
+            <form method="POST" >
+                {% csrf_token %}
+                <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    {{form.customer_id|as_crispy_field}}
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    {{form.date|as_crispy_field}}
+                </div>
+                </div>
+                <div class="row">
+                    {{form.total|as_crispy_field}}
+                </div>
+                <div class="row">
+                    {{form.comment|as_crispy_field}}
+                </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<!-- Data Tables -->
+<div class="container py-5 h-100">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Comentario</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for customer in customers %}
+      <tr>
+        <th scope="row">{{customer.id}}</th>
+        <td>{{customer.name}}</td>
+        <td>{{customer.comment}}</td>
+      </tr>   
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+
+
+

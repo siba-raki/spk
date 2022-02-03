@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_tags %} 
+<div class="container py-5 h-100">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div>
+        <h3>
+            <small class="text-muted">Delete Sale Order Line</small>
+        </h3>
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="id">Id </label>
+                  <input type="number" class="form-control" name="id" id="id">
+                </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</div> 
+
+<!-- Data Tables -->
+<div class="container py-5 h-100">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Sale Order Id</th>
+        <th scope="col">Product Id</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
+        <th scope="col">Price Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for saleorderline in saleordersline%}
+      <tr>
+        <th scope="row">{{saleorderline.id}}</th>
+        <td>{{saleorderline.sale_order_id}}</td>
+        <td>{{saleorderline.product_id}}</td>
+        <td>{{saleorderline.quantity}}</td>
+        <td>{{saleorderline.price}}</td>
+        <td>{{saleorderline.price_total}}</td>
+    </tr>   
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+
+
+
+

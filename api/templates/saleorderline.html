@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %} 
+
+{% block content %}
+  <div class="container py-5 h-100">
+    <h3>
+      <small class="text-muted">Sale Order line</small>
+    </h3>
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div>
+              <form method="POST">
+                  {% csrf_token %}
+                  <div class="row">
+                  <div class="col-lg-6 col-md-12">
+                      {{form.sale_order_id|as_crispy_field}}
+                  </div>
+                  <div class="col-lg-6 col-md-12">
+                      {{form.product_id|as_crispy_field}}
+                  </div>
+                  </div>
+                  <div class="row">
+                      {{form.quantity|as_crispy_field}}
+                  </div>
+                  <div class="row">
+                      {{form.price|as_crispy_field}}
+                  </div>
+                      <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+        </div>
+      </div>
+    </div>
+  </div> 
+
+<!-- Data Tables -->
+<div class="container py-5 h-100">
+  <table class="table table-bordered table-sm">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Id del cliente</th>
+        <th scope="col">Comentario</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Total</th>
+      </tr>
+      {% for saleorder in saleorders %}
+      <tr>
+        <th scope="row">{{saleorder.id}}</th>
+        <td>{{saleorder.customer_id}}</td>
+        <td>{{saleorder.comment}}</td>
+        <td>{{saleorder.date}}</td>
+        <td>{{saleorder.total}}</td>
+      </tr>   
+      {% endfor %}
+    </thead>
+  
+    
+      <thead>
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Nombre</th>
+          <th scope="col" colspan="3">Comentario</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <th scope="row">{{product.id}}</th>
+          <td>{{product.name}}</td>
+          <td colspan="3">{{product.comment}}</td>
+        </tr>   
+        {% endfor %}
+      </tbody>
+  </table>
+</div>
+{% endblock %}
+
+
+  
