@@ -12,8 +12,8 @@ urlpatterns = [
     path('saleorderline/<int:id>', SaleOrderLineView.as_view(), name = 'SaleOrderLine_proceess'),
 
     path('create_saleorder/', create_saleorder, name = 'create_SaleOrder'),
-    path('delete_saleorder/', delete_saleorder, name = 'delete_SaleOrder'),
+    path('list_saleorder/', list_saleorder, name = 'list_SaleOrder'),
     path('create_saleorderline/', create_saleorderline, name = 'create_SaleOrderLine'),
-    path('delete_saleorderline/', delete_saleorderline, name = 'delete_SaleOrderLine'),
+    path('list_saleorderline/', list_saleorderline, name = 'list_SaleOrderLine'),
 
 ]  

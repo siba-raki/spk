@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib import messages
 
 from api.models import Product
@@ -229,21 +229,25 @@ def create_saleorder(request):
             sale_order.total = form.cleaned_data['total']
             sale_order.customer_id = form.cleaned_data['customer_id']
             sale_order.save()
-            messages.info(request, 'Sale order created!')   
+            response = redirect('/api/list_saleorder/')
+            return response  
     else:
         form = FormSaleOrder()
 
     return render(request, 'create_saleorder.html', {'form' : form, 'customers': customers_data})
 
-def delete_saleorder(request):
+def list_saleorder(request):
     saleorders_data = SaleOrder.objects.all()
     if request.method == 'POST':
-        id = request.POST['id']
-        if id:
+
+        if 'add' in request.POST:
+            response = redirect('/api/create_saleorder/')
+            return response
+        elif 'delete' in request.POST:
+            id = request.POST['delete']
             SaleOrder.objects.filter(id=id).delete()
-            messages.info(request, 'Sale order deleted!')
-        
-    return render(request, 'delete_saleorder.html', {'saleorders': saleorders_data})
+      
+    return render(request, 'list_saleorder.html', {'saleorders': saleorders_data})
 
 
 
@@ -260,18 +264,24 @@ def create_saleorderline(request):
             sale_order_line.price = form.cleaned_data['price']
             sale_order_line.price_total = form.cleaned_data['price'] * form.cleaned_data['quantity']
             sale_order_line.save()
-            messages.info(request, 'Sale order line created!')
+            response = redirect('/api/list_saleorderline/')
+            return response
     else:
         form = FormSaleOrderLine()
 
-    return render(request, 'saleorderline.html', {'form' : form, 'saleorders':saleorders_data, 'products':products_data})
+    return render(request, 'create_saleorderline.html', {'form' : form, 'saleorders':saleorders_data, 'products':products_data})
 
-def delete_saleorderline(request):
+def list_saleorderline(request):
     saleordersline_data = SaleOrderLine.objects.all()
     if request.method == 'POST':
-        id = request.POST['id']
-        if id:
-            SaleOrderLine.objects.filter(id=id).delete()
-            messages.info(request, 'Sale order line deleted!')
         
-    return render(request, 'delete_saleorderline.html', {'saleordersline': saleordersline_data})
+        if 'add' in request.POST:
+            response = redirect('/api/create_saleorderline/')
+            return response
+        
+        elif 'delete' in request.POST:
+            id = request.POST['delete']
+            if id:
+                SaleOrderLine.objects.filter(id=id).delete()
+            
+    return render(request, 'list_saleorderline.html', {'saleordersline': saleordersline_data})
